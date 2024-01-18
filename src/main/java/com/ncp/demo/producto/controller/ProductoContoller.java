@@ -1,15 +1,16 @@
 package com.ncp.demo.producto.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncp.demo.producto.dto.ProductoDto;
-import com.ncp.demo.producto.entity.ProductoEntity;
 import com.ncp.demo.producto.service.ProductoService;
 
 @RestController
@@ -23,14 +24,20 @@ public class ProductoContoller {
 		this.productoService = productoService;
 	}
 
-	// duda responseEntity
+//	@PostMapping
+//	public ResponseEntity<ProductoDto> createProduct(@RequestBody ProductoDto productoDto) {
+//		ProductoDto createdProduct = productoService.createProduct(productoDto);
+//		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+//	}
+
 	@PostMapping
 	public ResponseEntity<ProductoDto> createProduct(@RequestBody ProductoDto productoDto) {
-		ProductoDto createdProduct = productoService.createProduct(productoDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+		return ResponseEntity.status(HttpStatus.CREATED).body(productoService.createProduct(productoDto));
 	}
-	
-	//subir a git con create 
-	
+
+	@GetMapping
+	public ResponseEntity<List<ProductoDto>> getAllProducts() {
+		return ResponseEntity.ok(productoService.getAllProducts());
+	}
 
 }

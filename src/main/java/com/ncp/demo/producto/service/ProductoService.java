@@ -1,6 +1,8 @@
 package com.ncp.demo.producto.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -32,4 +34,18 @@ public class ProductoService {
 		return productoDto;
 	}
 
+	public List<ProductoDto> getAllProducts() {
+		List<ProductoEntity> productList = productoRepository.findAll();
+		List<ProductoDto> productDTOList = new ArrayList<>();
+		for (ProductoEntity productoEntity : productList) {
+			ProductoDto productoDto = new ProductoDto();
+			productoDto.setId(productoEntity.getId());
+			productoDto.setName(productoEntity.getName());
+			productoDto.setPrice(productoEntity.getPrice());
+			productoDto.setCreationDate(productoEntity.getCreationDate());
+			productDTOList.add(productoDto);
+		}
+		return productDTOList;
+
+	}
 }
