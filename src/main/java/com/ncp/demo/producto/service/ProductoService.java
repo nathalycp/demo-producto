@@ -3,6 +3,7 @@ package com.ncp.demo.producto.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,31 @@ public class ProductoService {
 			productDTOList.add(productoDto);
 		}
 		return productDTOList;
+
+	}
+
+	public ProductoDto updateProduct(Integer id, ProductoDto updateProductoDto) {
+		Optional<ProductoEntity> optionalProduct = productoRepository.findById(id);
+
+		if (optionalProduct.isPresent()) {
+			ProductoEntity existProduct = optionalProduct.get();
+			existProduct.setName(updateProductoDto.getName());
+			existProduct.setPrice(updateProductoDto.getPrice());
+
+			ProductoEntity productoEntityUpdated = productoRepository.save(existProduct);
+
+			// convierto la entidad actualizada a DTO
+
+			ProductoDto productoDto = new ProductoDto();
+			productoDto.setId(productoEntityUpdated.getId());
+			productoDto.setName(productoEntityUpdated.getName());
+			productoDto.setPrice(productoEntityUpdated.getPrice());
+			productoDto.setCreationDate(productoEntityUpdated.getCreationDate());
+
+			return productoDto;
+		}
+
+		return null;
 
 	}
 }
